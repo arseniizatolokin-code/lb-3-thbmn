@@ -1,0 +1,20 @@
+{
+  "name": "freelance-escrow-ml",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "gas": "REPORT_GAS=true hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "seed:local": "hardhat run scripts/seed.js --network localhost",
+    "scenario:local": "hardhat run scripts/scenario.js --network localhost",
+    "slither": "slither .",
+    "register-model": "hardhat run scripts/register-model.js --network localhost",
+    "oracle": "node oracle/oracle.js"
+  },
+  "dependencies": {}
+}

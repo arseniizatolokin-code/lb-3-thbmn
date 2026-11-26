@@ -1,0 +1,24 @@
+@startuml
+skinparam shadowing false
+actor Замовник as C
+participant "Вебінтерфейс" as UI
+participant "API" as API
+participant "Escrow" as E
+participant "Оракул" as O
+participant "RiskOracle" as R
+C -> UI : форма угоди (ТЗ, етапи)
+UI -> API : POST /specs
+API --> UI : specHash (keccak256)
+UI -> E : proposeDeal(..., specHash)
+E --> O : подія DealProposed
+O -> E : getDeal, getMilestone, SBT.stats
+O -> API : POST /score
+API -> API : ознаки → модель → пояснення
+API --> O : ризик, версія моделі, хеш входу
+O -> R : submitRisk(dealId, riskBps, modelVersion, inputHash)
+R --> UI : подія RiskSubmitted
+C -> UI : «Профінансувати»
+UI -> E : fundDeal(сума + депозит за ризиком)
+UI -> API : GET /decisions/{id}
+UI -> UI : перевірка хешів (аудит)
+@enduml

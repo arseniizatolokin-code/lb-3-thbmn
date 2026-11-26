@@ -1,0 +1,887 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Freelance Escrow ML API",
+  "description": "Оцінка ризику спору, пояснення рішень, сховище ТЗ і довідник учасників (ЛР 3, тема 38)",
+  "version": "1.0"
+ },
+ "paths": {
+  "/health": {
+   "get": {
+    "tags": [
+     "service"
+    ],
+    "summary": "Health",
+    "operationId": "health_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/model": {
+   "get": {
+    "tags": [
+     "model"
+    ],
+    "summary": "Model Info",
+    "operationId": "model_info_model_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/predict": {
+   "post": {
+    "tags": [
+     "model"
+    ],
+    "summary": "Predict",
+    "description": "Ризик спору за готовим вектором ознак (без запису в журнал).",
+    "operationId": "predict_predict_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Features"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/specs": {
+   "post": {
+    "tags": [
+     "storage"
+    ],
+    "summary": "Put Spec",
+    "description": "Зберігає ТЗ поза ланцюгом; повертає keccak256-хеш для поля specHash контракту.",
+    "operationId": "put_spec_specs_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SpecIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/specs/{spec_hash}": {
+   "get": {
+    "tags": [
+     "storage"
+    ],
+    "summary": "Get Spec",
+    "operationId": "get_spec_specs__spec_hash__get",
+    "parameters": [
+     {
+      "name": "spec_hash",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Spec Hash"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/specs/{spec_hash}/verify": {
+   "get": {
+    "tags": [
+     "storage"
+    ],
+    "summary": "Verify Spec",
+    "description": "Перераховує хеш збереженого тексту й порівнює його з ключем (і, якщо задано, із хешем з ланцюга).",
+    "operationId": "verify_spec_specs__spec_hash__verify_get",
+    "parameters": [
+     {
+      "name": "spec_hash",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Spec Hash"
+      }
+     },
+     {
+      "name": "onchain_hash",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Onchain Hash"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/profiles/{address}": {
+   "put": {
+    "tags": [
+     "directory"
+    ],
+    "summary": "Put Profile",
+    "operationId": "put_profile_profiles__address__put",
+    "parameters": [
+     {
+      "name": "address",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Address"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Profile"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "get": {
+    "tags": [
+     "directory"
+    ],
+    "summary": "Get Profile",
+    "operationId": "get_profile_profiles__address__get",
+    "parameters": [
+     {
+      "name": "address",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Address"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/score": {
+   "post": {
+    "tags": [
+     "oracle"
+    ],
+    "summary": "Score",
+    "description": "Збирає ознаки угоди (ланцюг + ТЗ + довідник), викликає модель, зберігає рішення в журнал. Викликає оракул.",
+    "operationId": "score_score_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ScoreIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/decisions/{deal_id}": {
+   "get": {
+    "tags": [
+     "oracle"
+    ],
+    "summary": "Get Decision",
+    "operationId": "get_decision_decisions__deal_id__get",
+    "parameters": [
+     {
+      "name": "deal_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Deal Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/decisions/{deal_id}/tx": {
+   "put": {
+    "tags": [
+     "oracle"
+    ],
+    "summary": "Set Tx",
+    "operationId": "set_tx_decisions__deal_id__tx_put",
+    "parameters": [
+     {
+      "name": "deal_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Deal Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TxIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "Features": {
+    "properties": {
+     "category": {
+      "type": "string",
+      "title": "Category"
+     },
+     "budget_usd": {
+      "type": "number",
+      "maximum": 50000.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Budget Usd"
+     },
+     "n_milestones": {
+      "type": "integer",
+      "maximum": 10.0,
+      "minimum": 1.0,
+      "title": "N Milestones"
+     },
+     "planned_days": {
+      "type": "integer",
+      "maximum": 365.0,
+      "minimum": 1.0,
+      "title": "Planned Days"
+     },
+     "first_milestone_share": {
+      "type": "number",
+      "maximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "First Milestone Share"
+     },
+     "spec_words": {
+      "type": "integer",
+      "maximum": 20000.0,
+      "minimum": 1.0,
+      "title": "Spec Words"
+     },
+     "spec_clarity": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Spec Clarity"
+     },
+     "client_account_age_days": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Client Account Age Days"
+     },
+     "freelancer_account_age_days": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Freelancer Account Age Days"
+     },
+     "client_prev_deals": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Client Prev Deals"
+     },
+     "client_prev_dispute_rate": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Client Prev Dispute Rate"
+     },
+     "client_avg_rating": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 5.0,
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Client Avg Rating"
+     },
+     "freelancer_prev_deals": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Freelancer Prev Deals"
+     },
+     "freelancer_prev_dispute_rate": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Freelancer Prev Dispute Rate"
+     },
+     "freelancer_avg_rating": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 5.0,
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Freelancer Avg Rating"
+     },
+     "freelancer_response_hours": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Freelancer Response Hours"
+     },
+     "client_verified": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Client Verified"
+     },
+     "freelancer_verified": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Freelancer Verified"
+     },
+     "repeat_pair": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Repeat Pair"
+     }
+    },
+    "type": "object",
+    "required": [
+     "category",
+     "budget_usd",
+     "n_milestones",
+     "planned_days",
+     "first_milestone_share",
+     "spec_words"
+    ],
+    "title": "Features"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "Profile": {
+    "properties": {
+     "verified": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Verified"
+     },
+     "account_age_days": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Account Age Days"
+     },
+     "prev_deals": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Prev Deals"
+     },
+     "prev_dispute_rate": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Prev Dispute Rate"
+     },
+     "avg_rating": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 5.0,
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Avg Rating"
+     },
+     "response_hours": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Response Hours"
+     }
+    },
+    "type": "object",
+    "title": "Profile"
+   },
+   "ScoreIn": {
+    "properties": {
+     "deal_id": {
+      "type": "integer",
+      "minimum": 1.0,
+      "title": "Deal Id"
+     },
+     "spec_hash": {
+      "type": "string",
+      "title": "Spec Hash"
+     },
+     "client": {
+      "type": "string",
+      "title": "Client"
+     },
+     "freelancer": {
+      "type": "string",
+      "title": "Freelancer"
+     },
+     "amounts_eth": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "maxItems": 10,
+      "minItems": 1,
+      "title": "Amounts Eth"
+     },
+     "due_days": {
+      "items": {
+       "type": "integer"
+      },
+      "type": "array",
+      "maxItems": 10,
+      "minItems": 1,
+      "title": "Due Days"
+     },
+     "freelancer_sbt_deals": {
+      "type": "integer",
+      "minimum": 0.0,
+      "title": "Freelancer Sbt Deals",
+      "default": 0
+     },
+     "freelancer_sbt_disputes": {
+      "type": "integer",
+      "minimum": 0.0,
+      "title": "Freelancer Sbt Disputes",
+      "default": 0
+     }
+    },
+    "type": "object",
+    "required": [
+     "deal_id",
+     "spec_hash",
+     "client",
+     "freelancer",
+     "amounts_eth",
+     "due_days"
+    ],
+    "title": "ScoreIn"
+   },
+   "SpecIn": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 20000,
+      "minLength": 10,
+      "title": "Text"
+     },
+     "category": {
+      "type": "string",
+      "title": "Category"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text",
+     "category"
+    ],
+    "title": "SpecIn"
+   },
+   "TxIn": {
+    "properties": {
+     "tx_hash": {
+      "type": "string",
+      "title": "Tx Hash"
+     }
+    },
+    "type": "object",
+    "required": [
+     "tx_hash"
+    ],
+    "title": "TxIn"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}

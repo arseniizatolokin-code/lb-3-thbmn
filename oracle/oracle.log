@@ -1,0 +1,7 @@
+{"t":"2026-11-26T18:03:26.135Z","level":"info","msg":"оракул запущено","address":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8","escrow":"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0","fromBlock":0}
+{"t":"2026-11-26T18:03:32.514Z","level":"info","msg":"ризик записано в контракт","dealId":1,"riskBps":1635,"modelVersion":"0x9e654a891e26af9e22084072d6660b346fbce9338a29052d9da95bf9682145e0","tx":"0x68288e62244dbd98cbfc61268c36da516c4cd38f7185dcb586d2fd2ccf2c542e","block":8}
+{"t":"2026-11-26T18:03:44.900Z","level":"info","msg":"ризик записано в контракт","dealId":2,"riskBps":7549,"modelVersion":"0x9e654a891e26af9e22084072d6660b346fbce9338a29052d9da95bf9682145e0","tx":"0x4158d3ab6682523e73189402f687f878b8ad7038b5ef5c4272fbae363664b5fd","block":17}
+{"t":"2026-11-26T18:03:55.800Z","level":"info","msg":"оракул запущено","address":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8","escrow":"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0","fromBlock":18}
+{"t":"2026-11-26T18:03:56.170Z","level":"info","msg":"оракул запущено","address":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8","escrow":"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0","fromBlock":0}
+{"t":"2026-11-26T18:03:56.211Z","level":"info","msg":"подію вже оброблено, пропуск","dealId":1,"status":"submitted"}
+{"t":"2026-11-26T18:03:56.212Z","level":"info","msg":"подію вже оброблено, пропуск","dealId":2,"status":"submitted"}

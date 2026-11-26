@@ -1,0 +1,28 @@
+Мережа: localhost, адміністратор: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+  RiskOracle     0x5FbDB2315678afecb367f032d93F642f64180aa3
+  ReputationSBT  0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+  Escrow         0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+Записано deployments/localhost.json
+Зареєстровано версію моделі 0x9e654a891e26af9e22084072d6660b346fbce9338a29052d9da95bf9682145e0 tx 0x5383677a7667259ab07dad6a5f79a12e7da7fa93c5c98f808ea72467298c78c1
+Негативний 1 (без ролі): ⚠ Недостатньо прав: для цієї дії потрібна відповідна роль (адміністратор, арбітр або оракул).
+Негативний 2 (підмінене ТЗ): ['❌ ТЗ підмінено ✅ вхід моделі', '✅ ТЗ ✅ вхід моделі']
+Негативний 3 (аномальний вхід у /predict): HTTP 422 {"detail": [{"type": "greater_than", "loc": ["body", "budget_usd"], "msg": "Input should be greater than 0", "input": -5, "ctx": {"gt": 0.0}}, {"type": "greater_than_equal", "loc": ["body", "n_milestones"], "msg": "Input should be greater than or equal to 1", "input": 0, "ctx": {"ge": 1}}, {"type": 
+Перезапуск оракула (курсор скинуто на 0): записів ризику до 2, після 2; пропущено як вже оброблені: 2
+Збій мережі (RPC недоступний):
+{"t":"2026-11-26T18:02:54.956Z","level":"info","msg":"оракул запущено","address":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8","escrow":"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0","fromBlock":0}
+{"t":"2026-11-26T18:02:54.974Z","level":"warn","msg":"blockNumber: збій (connect ECONNREFUSED 127.0.0.1:9), повтор 1/2 через 200 мс"}
+{"t":"2026-11-26T18:02:55.174Z","level":"warn","msg":"blockNumber: збій (connect ECONNREFUSED 127.0.0.1:9), повтор 2/2 через 400 мс"}
+{"t":"2026-11-26T18:02:55.587Z","level":"error","msg":"фатальна помилка","error":"connect ECONNREFUSED 127.0.0.1:9"}
+{"t":"2026-11-26T18:03:56.594Z","level":"info","msg":"оракул запущено","address":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8","escrow":"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0","fromBlock":0}
+{"t":"2026-11-26T18:03:56.613Z","level":"warn","msg":"blockNumber: збій (connect ECONNREFUSED 127.0.0.1:9), повтор 1/2 через 200 мс"}
+{"t":"2026-11-26T18:03:56.813Z","level":"warn","msg":"blockNumber: збій (connect ECONNREFUSED 127.0.0.1:9), повтор 2/2 через 400 мс"}
+{"t":"2026-11-26T18:03:57.227Z","level":"error","msg":"фатальна помилка","error":"connect ECONNREFUSED 127.0.0.1:9"}
+
+Журнал оракула:
+{"t":"2026-11-26T18:03:26.135Z","level":"info","msg":"оракул запущено","address":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8","escrow":"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0","fromBlock":0}
+{"t":"2026-11-26T18:03:32.514Z","level":"info","msg":"ризик записано в контракт","dealId":1,"riskBps":1635,"modelVersion":"0x9e654a891e26af9e22084072d6660b346fbce9338a29052d9da95bf9682145e0","tx":"0x68288e62244dbd98cbfc61268c36da516c4cd38f7185dcb586d2fd2ccf2c542e","block":8}
+{"t":"2026-11-26T18:03:44.900Z","level":"info","msg":"ризик записано в контракт","dealId":2,"riskBps":7549,"modelVersion":"0x9e654a891e26af9e22084072d6660b346fbce9338a29052d9da95bf9682145e0","tx":"0x4158d3ab6682523e73189402f687f878b8ad7038b5ef5c4272fbae363664b5fd","block":17}
+{"t":"2026-11-26T18:03:55.800Z","level":"info","msg":"оракул запущено","address":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8","escrow":"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0","fromBlock":18}
+{"t":"2026-11-26T18:03:56.170Z","level":"info","msg":"оракул запущено","address":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8","escrow":"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0","fromBlock":0}
+{"t":"2026-11-26T18:03:56.211Z","level":"info","msg":"подію вже оброблено, пропуск","dealId":1,"status":"submitted"}
+{"t":"2026-11-26T18:03:56.212Z","level":"info","msg":"подію вже оброблено, пропуск","dealId":2,"status":"submitted"}
