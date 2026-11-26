@@ -24,6 +24,3 @@ ORACLE_PRIVATE_KEY=<ключ акаунта #1 Hardhat> node oracle/oracle.js   
 
 ## Тести
 `npx hardhat test` (контракти) · `python -m pytest api/tests -q` (API)
-
-## Не виконано
-Розгортання в Sepolia (скрипт готовий: `.env`, `npx hardhat run scripts/deploy.js --network sepolia`), `docker compose` (не реалізовано).
