@@ -5,7 +5,7 @@
 ## Структура
 `contracts/` Escrow, RiskOracle (реєстр версій моделі), ReputationSBT · `test/` 69 тестів · `ml/` дані, ознаки, навчання, модель і картка · `api/` FastAPI (+ `api/tests`, 21 тест) · `oracle/oracle.js` · `frontend/` вебінтерфейс · `e2e/run.py` наскрізний сценарій у браузері · `docs/` діаграми, OpenAPI · `reports/` графіки, скріншоти, журнали
 
-## Запуск (локально)
+## Запуск 
 ```bash
 npm install && pip install -r requirements.txt && npx playwright install chromium   # один раз
 python ml/pipeline.py          # дані (один запуск, seed=42, результат відтворюється)
